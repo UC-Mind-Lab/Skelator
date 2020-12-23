@@ -1,0 +1,44 @@
+version: '1.0'
+
+program:
+  image: IMAGE_NAME
+  language: c
+  source-directory: /experiment/source
+  build-instructions:
+    time-limit: 15
+    steps:
+      - gcc main.c -o main
+    steps-for-coverage:
+      - gcc main.c -o main --coverage
+  tests:
+    type: genprog
+    workdir: /experiment
+    number-of-passing-tests: NUM_PASSING_TESTS
+    number-of-failing-tests: NUM_FAILING_TESTS
+    time-limit: 5
+
+seed: 0
+threads: 16
+localization:
+  type: spectrum
+  metric: naive
+algorithm:
+  type: exhaustive
+coverage:
+  method:
+    type: gcov
+    files-to-instrument:
+      - main.c
+transformations:
+  schemas:
+    - type: delete-statement
+    - type: replace-statement
+    - type: append-statement
+optimizations:
+  ignore-equivalent-insertions: yes
+  ignore-dead-code: yes
+  ignore-string-equivalent-snippets: yes
+resource-limits:
+  candidates: 100
+run-redundant-tests: True
+allow-no-failing-tests: True
