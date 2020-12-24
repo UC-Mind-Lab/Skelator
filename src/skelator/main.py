@@ -19,7 +19,7 @@ gcd_suite.add_test(GCDTest([315, 831], 3))
 gcd_suite.add_test(GCDTest([513332, 91583315], 1))
 gcd_suite.add_test(GCDTest([112, 135], 1))
 gcd_suite.add_test(GCDTest([310, 55], 5))
-gcd_suite.add_test(GCDTest([0, 55], 0))
+gcd_suite.add_test(GCDTest([0, 55], 55))
 test_suites["gcd"] = gcd_suite
 
 # Define Zune test cases
