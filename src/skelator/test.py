@@ -63,7 +63,7 @@ class TestSuite:
         for test_number in range(1, len(self.suite.keys())+1):
             test_name = f"p{test_number}"
             test = self.suite[test_name]
-            if test_name in negations:
+            if any((test_name == n for n in negations)):
                 negatives_accounted_for += 1
                 tn = f"n{negatives_accounted_for}"
                 test_output = test.negation
@@ -199,7 +199,7 @@ class TestSuite:
         for test_number in range(1, len(self.suite.keys())+1):
             test_name = f"p{test_number}"
             test = self.suite[test_name]
-            if test_name in negations:
+            if any((test_name == n for n in negations)):
                 negatives_accounted_for += 1
                 tn = os.path.join(test_dir, f"n{negatives_accounted_for}")
                 test_output = test.negation
