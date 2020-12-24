@@ -11,7 +11,8 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'skelator = skelator.main:cli_interface'
+            'skelator = skelator.main:cli_interface',
+            'skelator2 = skelator.also_main:cli_interface'
         ]
     }
 )
