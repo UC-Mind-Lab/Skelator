@@ -20,34 +20,31 @@ class Test(abc.ABC):
     def correct_output(self):
         pass
 
-
-class GCDTest(Test):
-    @property
-    def correct_output(self):
-        return f"{self._correct_output}\n"
-
-    @property
-    def negation(self):
-        return f"{self.parameters[0]}\n"
-
-
-class ZuneTest(Test):
-    output_sentence = "current year is"
-    @property
-    def negation(self):
-        return f"{self.output_sentence} {self._correct_output + 1}\n"
-
-    @property
-    def correct_output(self):
-        return f"{self.output_sentence} {self._correct_output}\n"
+    def tex_string(self):
+        tex = "\\begin{itemize}\n"
+        tex += "\t\\item Parameters: " + str(self.parameters) + "\n"
+        tex += "\t\\item Correct Output: " + str(self.correct_output) + "\n"
+        tex += "\t\\item Negation: " + str(self.negation) + "\n"
+        tex += "\\end{itemize}"
+        return tex
 
 
 class TestSuite:
-    def __init__(self):
+    def __init__(self, links=""):
         self.suite = {}
+        self.links = links
 
     def add_test(self, new_test:Test):
         self.suite[f"p{len(self.suite)+1}"] = new_test
+
+    def tex_string(self):
+        tex = "\\begin{itemize}\n"
+        for test_number in range(1, len(self.suite.keys())+1):
+            test_name = f"p{test_number}"
+            tex += "\item " + test_name + "\n"
+            tex += self.suite[test_name].tex_string()
+        tex += "\\end{itemize}\n"
+        return tex
 
     def _test_sh(self, negations) -> str:
         lines = ""
@@ -92,6 +89,7 @@ class TestSuite:
         repair = repair.replace("NUM_PASSING_TESTS", 
                 str(len(self.suite) - len(negations)))
         repair = repair.replace("NUM_FAILING_TESTS", str(len(negations)))
+        repair = repair.replace("LINKS", self.links)
         return repair
 
 
@@ -101,7 +99,9 @@ class TestSuite:
         coverage = coverage.replace("IMAGE_NAME", image_name)
         coverage = coverage.replace("NUM_PASSING_TESTS", 
                 str(len(self.suite) - len(negations)))
-        coverage = coverage.replace("NUM_FAILING_TESTS", str(len(negations)))
+        coverage = coverage.replace("NUM_FAILING_TESTS",
+                str(len(negations)))
+        coverage = coverage.replace("LINKS", self.links)
         return coverage
 
 
