@@ -3,44 +3,7 @@ import argparse
 import os
 import shutil
 
-from .test import GCDTest, TestSuite, ZuneTest
-
-test_suites = {}
-
-# Define GCD test cases
-gcd_suite = TestSuite()
-gcd_suite.add_test(GCDTest([1071, 1029], 21))
-gcd_suite.add_test(GCDTest([555, 666], 111))
-gcd_suite.add_test(GCDTest([678, 987], 3))
-gcd_suite.add_test(GCDTest([8767, 653], 1))
-gcd_suite.add_test(GCDTest([16777216, 512], 512))
-gcd_suite.add_test(GCDTest([16, 4], 4))
-gcd_suite.add_test(GCDTest([315, 831], 3))
-gcd_suite.add_test(GCDTest([513332, 91583315], 1))
-gcd_suite.add_test(GCDTest([112, 135], 1))
-gcd_suite.add_test(GCDTest([310, 55], 5))
-gcd_suite.add_test(GCDTest([0, 55], 55))
-test_suites["gcd"] = gcd_suite
-
-# Define Zune test cases
-zune_suite = TestSuite()
-zune_suite.add_test(ZuneTest([10593], 2008))
-zune_suite.add_test(ZuneTest([12054], 2012))
-zune_suite.add_test(ZuneTest([1827], 1984))
-zune_suite.add_test(ZuneTest([366], 1980))
-zune_suite.add_test(ZuneTest([-366], 1980))
-zune_suite.add_test(ZuneTest([-100], 1980))
-zune_suite.add_test(ZuneTest([0], 1980))
-zune_suite.add_test(ZuneTest([365], 1980))
-zune_suite.add_test(ZuneTest([367], 1981))
-zune_suite.add_test(ZuneTest([1000], 1982))
-zune_suite.add_test(ZuneTest([1826], 1984))
-zune_suite.add_test(ZuneTest([2000], 1985))
-zune_suite.add_test(ZuneTest([3000], 1988))
-zune_suite.add_test(ZuneTest([4000], 1990))
-zune_suite.add_test(ZuneTest([5000], 1993))
-zune_suite.add_test(ZuneTest([10592], 2008))
-test_suites["zune"] = zune_suite
+from .suites import TEST_SUITES
 
 
 def parse_arguments(args=None) -> None:
@@ -65,14 +28,14 @@ def parse_arguments(args=None) -> None:
             type=lambda inp: list(inp.split()),
             help="Path to the output directory.")
     parser.add_argument("-i", "--image_name", 
-            default="mindlab/mindlab:skelatorDefaultImageName",
+            default=None,
             help="Name of the docker image.")
     args = parser.parse_args(args=args)
     return args
 
 
 def main(suite_name, main_c, output_dir:str="experiment", negations=[],
-        image_name:str="mindlab/mindlab:skelatorDefaultImageName") -> int:
+        image_name:str=None) -> int:
     """Main function.
 
     Parameters
@@ -90,10 +53,13 @@ def main(suite_name, main_c, output_dir:str="experiment", negations=[],
         Means that the input file was not found.
     """
     try:
-        suite = test_suites[suite_name.lower()]
+        suite = TEST_SUITES[suite_name.lower()]
     except KeyError:
-        print("Valid names are: " + " ".join(test_suites.keys()))
+        print("Valid names are: " + " ".join(TEST_SUITES.keys()))
         exit(1)
+
+    if image_name is None:
+        image_name = f"mindlab/mindlab:skelator__{suite_name}"
 
     suite.create_files(main_c, output_dir, negations, image_name)
 
