@@ -54,7 +54,7 @@ def main(suite_name, main_c, negations_file) -> int:
     suggestion_number = 0
     for suggestion in negations["suggestions"]:
         suggestion_number += 1
-        output_dir = f"{suggestion_number}--" + "_".join(suggestion)
+        output_dir = f"{suggestion_number:03}--" + "_".join(suggestion)
         skelator_main(suite_name, main_c, output_dir=output_dir, 
                 negations=suggestion)
 
