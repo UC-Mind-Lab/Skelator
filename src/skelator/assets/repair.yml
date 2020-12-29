@@ -41,4 +41,4 @@ optimizations:
 resource-limits:
   candidates: 100
 run-redundant-tests: True
-consider-all-lines: True
+consider-all-lines: False
