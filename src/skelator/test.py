@@ -20,12 +20,19 @@ class Test(abc.ABC):
     def correct_output(self):
         pass
 
-    def tex_string(self):
+    def tex_string(self, lines:dict=None):
         tex = "\\begin{itemize}\n"
         tex += "\t\\item Parameters: " + str(self.parameters) + "\n"
         tex += "\t\\item Correct Output: " + str(self.correct_output) + "\n"
         tex += "\t\\item Negation: " + str(self.negation) + "\n"
-        tex += "\\end{itemize}"
+        if lines:
+            tex += "\\begin{itemize}\n"
+            for file_name in lines.keys():
+                tex += f"\\item {file_name}: "\
+                        + ", ".join((str(l) for l\
+                        in lines[file_name])) + "\n"
+            tex += "\\end{itemize}\n"
+        tex += "\\end{itemize}\n"
         return tex
 
 
@@ -37,12 +44,13 @@ class TestSuite:
     def add_test(self, new_test:Test):
         self.suite[f"p{len(self.suite)+1}"] = new_test
 
-    def tex_string(self):
+    def tex_string(self, coverage:dict=None):
         tex = "\\begin{itemize}\n"
         for test_number in range(1, len(self.suite.keys())+1):
             test_name = f"p{test_number}"
             tex += "\item " + test_name + "\n"
-            tex += self.suite[test_name].tex_string()
+            tex += self.suite[test_name].\
+                    tex_string(lines=coverage[test_name])
         tex += "\\end{itemize}\n"
         return tex
 
