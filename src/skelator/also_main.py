@@ -23,13 +23,14 @@ def parse_arguments(args=None) -> None:
             description="A default template for python",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("suite_name", help="Suite name")
-    parser.add_argument("main_c", help="Path to the main c file.")
     parser.add_argument("negations_file", help="Path to the negations json file.")
+    parser.add_argument("-m", "--main_c", default=None,
+            help="Path to the main c file.")
     args = parser.parse_args(args=args)
     return args
 
 
-def main(suite_name, main_c, negations_file) -> int:
+def main(suite_name, negations_file, main_c=None) -> int:
     """Main function.
 
     Parameters
@@ -55,7 +56,7 @@ def main(suite_name, main_c, negations_file) -> int:
     for suggestion in negations["suggestions"]:
         suggestion_number += 1
         output_dir = f"{suggestion_number:03}--" + "_".join(suggestion)
-        skelator_main(suite_name, main_c, output_dir=output_dir, 
+        skelator_main(suite_name, main_c=main_c, output_dir=output_dir, 
                 negations=suggestion)
 
     # Return success code
