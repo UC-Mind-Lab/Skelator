@@ -6,6 +6,10 @@ import shutil
 from .suites import TEST_SUITES
 
 
+FILE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(FILE_DIR, "assets")
+
+
 def parse_arguments(args=None) -> None:
     """Returns the parsed arguments.
 
@@ -20,7 +24,7 @@ def parse_arguments(args=None) -> None:
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("suite_name",
             help="The name of the suite we want to use.")
-    parser.add_argument("main_c",
+    parser.add_argument("-m", "--main_c", default=None,
             help="The path to the main_c file to experiment on")
     parser.add_argument("-o", "--output_dir", default="experiment",
             help="Path to the output directory.")
@@ -34,8 +38,8 @@ def parse_arguments(args=None) -> None:
     return args
 
 
-def main(suite_name, main_c, output_dir:str="experiment", negations=[],
-        image_name:str=None) -> int:
+def main(suite_name, main_c:str=None, output_dir:str="experiment",
+        negations=[], image_name:str=None) -> int:
     """Main function.
 
     Parameters
@@ -60,6 +64,9 @@ def main(suite_name, main_c, output_dir:str="experiment", negations=[],
 
     if image_name is None:
         image_name = f"mindlab/mindlab:skelator__{suite_name}"
+
+    if main_c is None:
+        main_c = os.path.join(ASSETS_DIR, f"{suite_name.lower()}.c")
 
     suite.create_files(main_c, output_dir, negations, image_name)
 
