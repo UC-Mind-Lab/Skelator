@@ -16,6 +16,7 @@ class NthPrimeTest(Test):
 
 
 NthPrime = TestSuite(links="-lm")
+NthPrime.add_test(NthPrimeTest([0], 2))
 NthPrime.add_test(NthPrimeTest([1], 2))
 NthPrime.add_test(NthPrimeTest([2], 3))
 NthPrime.add_test(NthPrimeTest([3], 5))

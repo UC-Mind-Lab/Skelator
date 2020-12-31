@@ -5,20 +5,44 @@ import os
 FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.join(FILE_DIR, "assets")
 
+
 class Test(abc.ABC):
     def __init__(self, parameters, correct_output):
+        """Abstract test case
+        Doesn't specify the format of the output, or the negations
+        of tests.
+        
+        Parameters
+        ----------
+        parameters: list
+            The parameters for the test case
+        correct_output: any
+            The correct output given the parameters
+        """
         self.parameters = parameters
         self._correct_output = correct_output
 
-    @property
+
     @abc.abstractmethod
-    def negation(self):
+    def _output(self, value):
         pass
+
 
     @property
     @abc.abstractmethod
-    def correct_output(self):
+    def _negation(self):
         pass
+
+
+    @property
+    def negation(self):
+        return self._output(self._negation)
+
+
+    @property
+    def correct_output(self):
+        return self._output(self._correct_output)
+
 
     def tex_string(self, lines:dict=None):
         tex = "\\begin{itemize}\n"
@@ -172,7 +196,7 @@ class TestSuite:
                 - test
                     - (The outputs of the test)
         """
-        # Check if experiment_dir already exists
+        # Make the experiment_dir
         os.mkdir(experiment_dir)
 
         # Copy over the files for this directory

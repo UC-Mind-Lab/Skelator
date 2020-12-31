@@ -57,7 +57,7 @@ def main(suite_name, main_c:str=None, output_dir:str="experiment",
         Means that the input file was not found.
     """
     try:
-        suite = TEST_SUITES[suite_name.lower()]
+        suites = TEST_SUITES[suite_name.lower()]
     except KeyError:
         print("Valid names are: " + " ".join(TEST_SUITES.keys()))
         exit(1)
@@ -68,7 +68,19 @@ def main(suite_name, main_c:str=None, output_dir:str="experiment",
     if main_c is None:
         main_c = os.path.join(ASSETS_DIR, f"{suite_name.lower()}.c")
 
-    suite.create_files(main_c, output_dir, negations, image_name)
+    if len(negations) == 0:
+        # We're making the all positive case
+        any_suite = list(suites.values())[0]
+        any_suite.create_files(main_c, output_dir, negations,
+                image_name)
+
+    else:
+        # Make the output dir
+        os.mkdir(output_dir)
+        for neg_name in suites.keys():
+            neg_dir = os.path.join(output_dir, neg_name)
+            suites[neg_name].create_files(main_c, neg_dir, negations,
+                    image_name)
 
     # Return success code
     return 0
