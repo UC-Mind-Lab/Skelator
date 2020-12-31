@@ -3,7 +3,7 @@ from .gcd import suites as gcd_suites
 from .lcm import suites as lcm_suites
 # from .prime import NthPrime
 # from .triangle import Triangle
-# from .zune import ZUNE
+from .zune import suites as zune_suites
 
 
 TEST_SUITES = {
@@ -11,5 +11,5 @@ TEST_SUITES = {
     "lcm": lcm_suites,
     # "nth_prime": NthPrime,
     # "valid_triangle": Triangle,
-    # "zune": ZUNE
+    "zune": zune_suites
 }

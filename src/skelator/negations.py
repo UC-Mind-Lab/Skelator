@@ -24,3 +24,24 @@ class NegateWithNthParameter(Test):
     def _negation(self):
         return self.parameters[self.nth_parameter]
 
+
+class NegateWithAddNtoOutput(Test):
+    def __init__(self, parameters, correct_output, n_to_add):
+        """Test case
+        
+        Parameters
+        ----------
+        parameters: list
+            The parameters for the test case
+        correct_output: any
+            The correct output given the parameters
+        n_to_add
+            The n to add to the output
+        """
+        super().__init__(parameters, correct_output)
+        self.n_to_add = n_to_add
+
+    @property
+    def _negation(self):
+        return self._correct_output + self.n_to_add
+
