@@ -19,6 +19,6 @@ int main(int argc, char *argv[]) {
     }
     num = num + 1;
   }
-  printf ("%dth prime number is %d\n",rangenumber,letest);
+  printf ("%d\n",rangenumber,letest);
   return 0;
 }

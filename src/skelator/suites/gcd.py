@@ -11,7 +11,6 @@ class GcdNegateWithNthParameter(GcdTest, NegateWithNthParameter):
     ...
 
 
-
 test_cases_info = [
     ([1071, 1029], 21),
     ([555, 666], 111),

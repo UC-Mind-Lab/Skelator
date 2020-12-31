@@ -1,40 +1,45 @@
 from ..test import Test, TestSuite
+from ..negations import NegateWithNthParameter
 
 
 class NthPrimeTest(Test):
-    @staticmethod
-    def output(nth, prime):
-        return f"{nth}th prime number is {prime}\n"
-
-    @property
-    def correct_output(self):
-        return self.output(self.parameters[0], self._correct_output)
-
-    @property
-    def negation(self):
-        return self.output(self.parameters[0], self.parameters[0])
+    def _output(nth, value):
+        return f"{value}\n"
 
 
-NthPrime = TestSuite(links="-lm")
-NthPrime.add_test(NthPrimeTest([0], 2))
-NthPrime.add_test(NthPrimeTest([1], 2))
-NthPrime.add_test(NthPrimeTest([2], 3))
-NthPrime.add_test(NthPrimeTest([3], 5))
-NthPrime.add_test(NthPrimeTest([4], 7))
-NthPrime.add_test(NthPrimeTest([5], 11))
-NthPrime.add_test(NthPrimeTest([6], 13))
-NthPrime.add_test(NthPrimeTest([7], 17))
-NthPrime.add_test(NthPrimeTest([8], 19))
-NthPrime.add_test(NthPrimeTest([9], 23))
-NthPrime.add_test(NthPrimeTest([10], 29))
-NthPrime.add_test(NthPrimeTest([11], 31))
-NthPrime.add_test(NthPrimeTest([12], 37))
-NthPrime.add_test(NthPrimeTest([13], 41))
-NthPrime.add_test(NthPrimeTest([14], 43))
-NthPrime.add_test(NthPrimeTest([15], 47))
-NthPrime.add_test(NthPrimeTest([16], 53))
-NthPrime.add_test(NthPrimeTest([17], 59))
-NthPrime.add_test(NthPrimeTest([18], 61))
-NthPrime.add_test(NthPrimeTest([19], 67))
-NthPrime.add_test(NthPrimeTest([20], 71))
+class NthPrimeNegateWithNthParameter(NthPrimeTest,
+        NegateWithNthParameter):
+    ...
+
+test_cases_info = [
+    ([0], 2),
+    ([1], 2),
+    ([2], 3),
+    ([3], 5),
+    ([4], 7),
+    ([5], 11),
+    ([6], 13),
+    ([7], 17),
+    ([8], 19),
+    ([9], 23),
+    ([10], 29),
+    ([11], 31),
+    ([12], 37),
+    ([13], 41),
+    ([14], 43),
+    ([15], 47),
+    ([16], 53),
+    ([17], 59),
+    ([18], 61),
+    ([19], 67),
+    ([20], 71)
+]
+
+suites = {}
+
+parameter_suite = TestSuite(links="-lm")
+for params, correct_out in test_cases_info:
+    parameter_suite.add_test(NthPrimeNegateWithNthParameter(
+        params, correct_out, 0))
+suites[f"0th_parameter"] = parameter_suite
 
