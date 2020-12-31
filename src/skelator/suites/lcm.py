@@ -1,28 +1,38 @@
 from ..test import Test, TestSuite
+from ..negations import NegateWithNthParameter
 
 
-class LCMTest(Test):
-    @property
-    def correct_output(self):
-        return f"{self._correct_output}\n"
-
-    @property
-    def negation(self):
-        return f"{self.parameters[0]}\n"
+class LcmTest(Test):
+    def _output(self, value):
+        return f"{value}\n"
 
 
-LCM = TestSuite()
-LCM.add_test(LCMTest([1071, 1029], 52479))
-LCM.add_test(LCMTest([555, 666], 3330))
-LCM.add_test(LCMTest([678, 987], 223062))
-LCM.add_test(LCMTest([8767, 653], 5724851))
-LCM.add_test(LCMTest([16777216, 512], 16777216))
-LCM.add_test(LCMTest([16, 4], 16))
-LCM.add_test(LCMTest([315, 831], 87255))
-LCM.add_test(LCMTest([513332, 91583315],
-    "Error: An overflow has occurred."))
-LCM.add_test(LCMTest([112, 135], 15120))
-LCM.add_test(LCMTest([310, 55], 3410))
-LCM.add_test(LCMTest([0, 55], 0))
-LCM.add_test(LCMTest([55, 0], 0))
+class LcmNegateWithNthParameter(LcmTest, NegateWithNthParameter):
+    ...
+
+
+test_cases_info = [
+    ([1071, 1029], 52479),
+    ([555, 666], 3330),
+    ([678, 987], 223062),
+    ([8767, 653], 5724851),
+    ([16777216, 512], 16777216),
+    ([16, 4], 16),
+    ([315, 831], 87255),
+    ([513332, 91583315],
+        "Error: An overflow has occurred."),
+    ([112, 135], 15120),
+    ([310, 55], 3410),
+    ([0, 55], 0),
+    ([55, 0], 0)
+]
+
+suites = {}
+
+for n in range(2):
+    parameter_suite = TestSuite()
+    for params, correct_out in test_cases_info:
+        parameter_suite.add_test(LcmNegateWithNthParameter(
+            params, correct_out, n))
+    suites[f"{n}th_parameter"] = parameter_suite
 
