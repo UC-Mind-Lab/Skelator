@@ -1,28 +1,30 @@
 from ..test import Test, TestSuite
+from ..negations import NegateBooleanOutput
 
 
 class TriangleTest(Test):
-    valid = "Yes\n"
-    invalid = "No\n"
-
-    @property
-    def correct_output(self):
-        if self._correct_output:
-            return self.valid
+    def _output(self, value):
+        if value:
+            return "Yes\n"
         else:
-            return self.invalid
-
-    @property
-    def negation(self):
-        if not self._correct_output:
-            return self.valid
-        else:
-            return self.invalid
+            return "No\n"
 
 
-Triangle = TestSuite()
-Triangle.add_test(TriangleTest([1, 2, 3, 1, 2, 3], False))
-Triangle.add_test(TriangleTest([1, 2, 3, 3, 2, 1], True))
-Triangle.add_test(TriangleTest([1, 3, 3, 3, 3, 1], True))
-Triangle.add_test(TriangleTest([1, 1, 1, 1, 1, 1], False))
+class TriangleNegateBooleanOutput(TriangleTest, NegateBooleanOutput):
+    ...
+
+
+test_cases_info = [
+    ([1, 2, 3, 1, 2, 3], False),
+    ([1, 2, 3, 3, 2, 1], True),
+    ([1, 3, 3, 3, 3, 1], True),
+    ([1, 1, 1, 1, 1, 1], False)
+]
+
+suites = {}
+reversed_suite = TestSuite()
+for params, correct_out in test_cases_info:
+    reversed_suite.add_test(TriangleNegateBooleanOutput(
+        params, correct_out))
+suites[f"reversed"] = reversed_suite
 

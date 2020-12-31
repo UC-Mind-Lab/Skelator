@@ -45,3 +45,9 @@ class NegateWithAddNtoOutput(Test):
     def _negation(self):
         return self._correct_output + self.n_to_add
 
+
+class NegateBooleanOutput(Test):
+    @property
+    def _negation(self):
+        return not self._correct_output
+
