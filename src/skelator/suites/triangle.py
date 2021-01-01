@@ -16,9 +16,11 @@ class TriangleNegateBooleanOutput(TriangleTest, NegateBooleanOutput):
 
 test_cases_info = [
     ([1, 2, 3, 1, 2, 3], False),
-    ([1, 2, 3, 3, 2, 1], True),
-    ([1, 3, 3, 3, 3, 1], True),
-    ([1, 1, 1, 1, 1, 1], False)
+    ([1, 5, 2, 5, 4, 6], True),
+    ([1, 1, 1, 4, 1, 5], False),
+    ([1, 2, 3, 3, 2, 1], False),
+    ([10, 6, 7, 3, 2, 1], True),
+    ([1, 1, 2, 2, 3, 3], True)
 ]
 
 suites = {}
