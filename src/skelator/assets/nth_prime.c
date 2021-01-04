@@ -19,6 +19,6 @@ int main(int argc, char *argv[]) {
     }
     num = num + 1;
   }
-  printf ("%d\n",rangenumber,letest);
+  printf ("%d\n",letest);
   return 0;
 }

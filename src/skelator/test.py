@@ -137,11 +137,13 @@ class TestSuite:
         return coverage
 
 
-    def _makefile(self, image_name):
+    def _makefile(self, image_name, linkage):
         with open(os.path.join(ASSETS_DIR, "Makefile"), "r") as fin:
             makefile = fin.read()
         makefile = makefile.replace("IMAGE_NAME", image_name)
+        makefile = makefile.replace("LINKAGE", linkage)
         return makefile
+
 
     def create_test_files(self, docker_dir, negations) -> None:
         # Check if docker_dir already exists
@@ -172,7 +174,8 @@ class TestSuite:
             shutil.copy(full_path, docker_dir)
 
 
-    def create_files(self, main_c, experiment_dir:str, negations, image_name:str)\
+    def create_files(self, main_c, experiment_dir:str, negations,
+            image_name:str, linkage:str)\
         -> None:
         """Create all of the directories and files for the experiment.
 
@@ -182,7 +185,6 @@ class TestSuite:
             The directory to place of this into.
         negations:
             Yes
-
 
         Directory tree:
         - experiment_dir
@@ -202,7 +204,7 @@ class TestSuite:
         # Copy over the files for this directory
         # Makefile
         with open(os.path.join(experiment_dir, "Makefile"), "w") as fout:
-            fout.write(self._makefile(image_name))
+            fout.write(self._makefile(image_name, linkage))
         # repair.yml
         with open(os.path.join(experiment_dir, "repair.yml"), "w") as fout:
             fout.write(self._repair_file(negations, image_name))

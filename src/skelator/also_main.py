@@ -26,11 +26,13 @@ def parse_arguments(args=None) -> None:
     parser.add_argument("negations_file", help="Path to the negations json file.")
     parser.add_argument("-m", "--main_c", default=None,
             help="Path to the main c file.")
+    parser.add_argument("-l", "--linkage", default="single",
+            help="The linkage method to use for clustering.")
     args = parser.parse_args(args=args)
     return args
 
 
-def main(suite_name, negations_file, main_c=None) -> int:
+def main(suite_name, negations_file, main_c=None, linkage:str="single") -> int:
     """Main function.
 
     Parameters
@@ -57,7 +59,7 @@ def main(suite_name, negations_file, main_c=None) -> int:
         suggestion_number += 1
         output_dir = f"{suggestion_number:03}--" + "_".join(suggestion)
         skelator_main(suite_name, main_c=main_c, output_dir=output_dir, 
-                negations=suggestion)
+                negations=suggestion, linkage=linkage)
 
     # Return success code
     return 0

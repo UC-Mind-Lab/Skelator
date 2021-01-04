@@ -12,7 +12,7 @@ coverage.json: docker
 	darjeeling coverage coverage.yml --format json | tee $@
 
 negations.json: docker
-	darjeeling negations coverage.yml --format json | tee $@ 
+	darjeeling negations coverage.yml --format json --linkage LINKAGE | tee $@ 
 
 attach: docker
 	docker run -it $(TAG) /bin/bash
