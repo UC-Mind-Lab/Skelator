@@ -48,8 +48,10 @@ for params, correct_out in test_cases_info:
         params, correct_out, 0))
 suites[f"0th_parameter"] = parameter_suite
 
+
+inf_suite = TestSuite(links="-lm")
 for params, correct_out in test_cases_info:
-    add_suite.add_test(NthPrimeInfiniteBug(
+    inf_suite.add_test(NthPrimeInfiniteBug(
         params, correct_out))
-    suites[f"infinite"] = add_suite
+    suites[f"infinite"] = inf_suite
 

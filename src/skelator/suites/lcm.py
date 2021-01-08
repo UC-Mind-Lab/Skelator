@@ -65,10 +65,11 @@ def prepare_suite(unique_test_cases_info):
         # Save it
         suites[f"{n}th_parameter"] = parameter_suite
 
-    for params, correct_out in test_cases_info:
-        add_suite.add_test(LcmInfiniteBug(
+    inf_suite = TestSuite()
+    for params, correct_out in unique_test_cases_info:
+        inf_suite.add_test(LcmInfiniteBug(
             params, correct_out))
-        suites[f"infinite"] = add_suite
+        suites[f"infinite"] = inf_suite
 
     return suites
 

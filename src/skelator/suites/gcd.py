@@ -38,7 +38,9 @@ for n in range(2):
             params, correct_out, n))
     suites[f"{n}th_parameter"] = parameter_suite
 
+inf_suite = TestSuite()
 for params, correct_out in test_cases_info:
-    parameter_suite.add_test(GcdInfiniteBug(
+    inf_suite.add_test(GcdInfiniteBug(
         params, correct_out))
-suites[f"infinite"] = parameter_suite
+suites[f"infinite"] = inf_suite
+

@@ -34,8 +34,9 @@ for params, correct_out in test_cases_info:
         params, correct_out))
 suites[f"reversed"] = reversed_suite
 
+inf_suite = TestSuite()
 for params, correct_out in test_cases_info:
-    add_suite.add_test(TriangleInfiniteBug(
+    inf_suite.add_test(TriangleInfiniteBug(
         params, correct_out))
-    suites[f"infinite"] = add_suite
+    suites[f"infinite"] = inf_suite
 

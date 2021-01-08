@@ -43,8 +43,9 @@ for n in [-1,1]:
             params, correct_out, n))
     suites[f"add_{n}"] = add_suite
 
+inf_suite = TestSuite()
 for params, correct_out in test_cases_info:
-    add_suite.add_test(ZuneInfiniteBug(
+    inf_suite.add_test(ZuneInfiniteBug(
         params, correct_out))
-    suites[f"infinite"] = add_suite
+    suites[f"infinite"] = inf_suite
 
