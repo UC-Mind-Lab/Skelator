@@ -78,11 +78,13 @@ def main(suite_name, main_c:str=None, output_dir:str="experiment",
 
     else:
         # Make the output dir
-        os.mkdir(output_dir)
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
         for neg_name in suites.keys():
             neg_dir = os.path.join(output_dir, neg_name)
-            suites[neg_name].create_files(main_c, neg_dir, negations,
-                    image_name, linkage)
+            if not os.path.exists(neg_dir):
+                suites[neg_name].create_files(main_c, neg_dir, negations,
+                        image_name, linkage)
 
     # Return success code
     return 0
