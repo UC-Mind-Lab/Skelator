@@ -11,7 +11,7 @@ patch_results=$(realpath $workdir/patch_results)
 echo "Patch Results" > $patch_results
 
 cd $workdir
-if [ ! -d "patches" ]; then
+if [ -d "all_positive" ]; then
   echo "all_positive already exists"
 else
   skelator $suite -o all_positive -l $linkage
