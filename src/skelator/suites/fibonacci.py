@@ -1,4 +1,4 @@
-from ..test import Test, TestSuite
+from ..test import InfiniteBugTest, Test, TestSuite
 from ..negations import NegateWithAddNtoOutput, NegateWithNthParameter
 
 
@@ -14,6 +14,10 @@ class FibonacciNegateWithNthParameter(FibonacciTest,
 
 class FibonacciNegateWithAddNtoOutput(FibonacciTest, 
         NegateWithAddNtoOutput):
+    ...
+
+
+class FibonacciInfiniteBug(FibonacciTest, InfiniteBugTest):
     ...
 
 
@@ -47,4 +51,9 @@ for n in [-1,1]:
         add_suite.add_test(FibonacciNegateWithAddNtoOutput(
             params, correct_out, n))
     suites[f"add_{n}"] = add_suite
+
+for params, correct_out in test_cases_info:
+    add_suite.add_test(FibonacciInfiniteBug(
+        params, correct_out))
+    suites[f"infinite"] = add_suite
 

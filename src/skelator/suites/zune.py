@@ -1,4 +1,4 @@
-from ..test import Test, TestSuite
+from ..test import InfiniteBugTest, Test, TestSuite
 from ..negations import NegateWithAddNtoOutput
 
 
@@ -8,6 +8,10 @@ class ZuneTest(Test):
 
 
 class ZuneNegateWithNthParamter(ZuneTest, NegateWithAddNtoOutput):
+    ...
+
+
+class ZuneInfiniteBug(ZuneTest, InfiniteBugTest):
     ...
 
 
@@ -38,4 +42,9 @@ for n in [-1,1]:
         add_suite.add_test(ZuneNegateWithNthParamter(
             params, correct_out, n))
     suites[f"add_{n}"] = add_suite
+
+for params, correct_out in test_cases_info:
+    add_suite.add_test(ZuneInfiniteBug(
+        params, correct_out))
+    suites[f"infinite"] = add_suite
 

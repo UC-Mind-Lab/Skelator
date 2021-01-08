@@ -60,6 +60,12 @@ class Test(abc.ABC):
         return tex
 
 
+class InfiniteBugTest(Test):
+    def _negation(self):
+        return "RUNS INFINITELY"
+
+
+
 class TestSuite:
     def __init__(self, links=""):
         self.suite = {}
@@ -101,9 +107,16 @@ class TestSuite:
                 test_output = test.correct_output
 
             lines += f"{tn})\n"
-            lines += "\"${executable}\" " + " ".join((str(p) for p in test.parameters))
-            lines += " |& diff \"${test_dir}/" + tn + "\" - &> "
-            lines += "/dev/null && exit 0;;\n"
+            if isinstance(test, InfiniteBugTest):
+                lines += "timeout 3 "
+                lines += "\"${executable}\" "
+                lines += " ".join((str(p) for p in test.parameters))
+                lines += " && exit 1 || exit 0;;\n"
+            else:
+                lines += "\"${executable}\" "
+                lines += " ".join((str(p) for p in test.parameters))
+                lines += " |& diff \"${test_dir}/" + tn + "\" - &> "
+                lines += "/dev/null && exit 0;;\n"
         lines += "esac\n"
         lines += "exit 1\n"
         return lines

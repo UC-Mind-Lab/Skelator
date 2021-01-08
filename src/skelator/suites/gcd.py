@@ -1,4 +1,4 @@
-from ..test import Test, TestSuite
+from ..test import InfiniteBugTest, Test, TestSuite
 from ..negations import NegateWithNthParameter
 
 
@@ -8,6 +8,10 @@ class GcdTest(Test):
 
 
 class GcdNegateWithNthParameter(GcdTest, NegateWithNthParameter):
+    ...
+
+
+class GcdInfiniteBug(GcdTest, InfiniteBugTest):
     ...
 
 
@@ -34,3 +38,7 @@ for n in range(2):
             params, correct_out, n))
     suites[f"{n}th_parameter"] = parameter_suite
 
+for params, correct_out in test_cases_info:
+    parameter_suite.add_test(GcdInfiniteBug(
+        params, correct_out))
+suites[f"infinite"] = parameter_suite

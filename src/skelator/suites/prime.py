@@ -1,4 +1,4 @@
-from ..test import Test, TestSuite
+from ..test import InfiniteBugTest, Test, TestSuite
 from ..negations import NegateWithNthParameter
 
 
@@ -10,6 +10,11 @@ class NthPrimeTest(Test):
 class NthPrimeNegateWithNthParameter(NthPrimeTest,
         NegateWithNthParameter):
     ...
+
+
+class NthPrimeInfiniteBug(NthPrimeTest, InfiniteBugTest):
+    ...
+
 
 test_cases_info = [
     ([0], 0),
@@ -42,4 +47,9 @@ for params, correct_out in test_cases_info:
     parameter_suite.add_test(NthPrimeNegateWithNthParameter(
         params, correct_out, 0))
 suites[f"0th_parameter"] = parameter_suite
+
+for params, correct_out in test_cases_info:
+    add_suite.add_test(NthPrimeInfiniteBug(
+        params, correct_out))
+    suites[f"infinite"] = add_suite
 

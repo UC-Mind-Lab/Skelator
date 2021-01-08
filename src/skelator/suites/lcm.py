@@ -1,4 +1,4 @@
-from ..test import Test, TestSuite
+from ..test import InfiniteBugTest, Test, TestSuite
 from ..negations import NegateWithNthParameter
 
 
@@ -8,6 +8,10 @@ class LcmTest(Test):
 
 
 class LcmNegateWithNthParameter(LcmTest, NegateWithNthParameter):
+    ...
+
+
+class LcmInfiniteBug(LcmTest, InfiniteBugTest):
     ...
 
 
@@ -60,6 +64,12 @@ def prepare_suite(unique_test_cases_info):
                 params, correct_out, n))
         # Save it
         suites[f"{n}th_parameter"] = parameter_suite
+
+    for params, correct_out in test_cases_info:
+        add_suite.add_test(LcmInfiniteBug(
+            params, correct_out))
+        suites[f"infinite"] = add_suite
+
     return suites
 
 direct_suites = prepare_suite(direct_test_cases_info)

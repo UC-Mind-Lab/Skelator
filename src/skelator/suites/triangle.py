@@ -1,4 +1,4 @@
-from ..test import Test, TestSuite
+from ..test import InfiniteBugTest, Test, TestSuite
 from ..negations import NegateBooleanOutput
 
 
@@ -11,6 +11,10 @@ class TriangleTest(Test):
 
 
 class TriangleNegateBooleanOutput(TriangleTest, NegateBooleanOutput):
+    ...
+
+
+class TriangleInfiniteBug(TriangleTest, InfiniteBugTest):
     ...
 
 
@@ -29,4 +33,9 @@ for params, correct_out in test_cases_info:
     reversed_suite.add_test(TriangleNegateBooleanOutput(
         params, correct_out))
 suites[f"reversed"] = reversed_suite
+
+for params, correct_out in test_cases_info:
+    add_suite.add_test(TriangleInfiniteBug(
+        params, correct_out))
+    suites[f"infinite"] = add_suite
 
