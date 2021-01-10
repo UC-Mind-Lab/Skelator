@@ -102,12 +102,14 @@ class TestSuite:
                 negatives_accounted_for += 1
                 tn = f"n{negatives_accounted_for}"
                 test_output = test.negation
+                negative_test_case = True
             else:
                 tn = f"p{test_number - negatives_accounted_for}"
                 test_output = test.correct_output
+                negative_test_case = False
 
             lines += f"{tn})\n"
-            if isinstance(test, InfiniteBugTest):
+            if isinstance(test, InfiniteBugTest) and negative_test_case:
                 lines += "timeout 3 "
                 lines += "\"${executable}\" "
                 lines += " ".join((str(p) for p in test.parameters))

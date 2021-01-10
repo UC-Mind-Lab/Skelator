@@ -10,12 +10,10 @@ int main(int argc, char *argv[])
 
   while (days > 365) {
     if (isLeapYear(year)){
-      if (days == 366) {
-        days -= 366;
-      } else if (days > 366) {
-        days -= 366;
+      if (days > 366) {
         year += 1;
       }
+      days -= 366;
     } else {
       days -= 365;
       year += 1;

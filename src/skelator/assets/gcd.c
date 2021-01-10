@@ -8,7 +8,9 @@ int main(int argc, char *argv[]) {
 
   if (a == 0) {
     printf("%g\n", b);
-  } else {
+    return 0;
+  }
+  {
     while (b != 0) {
       if (a > b) {
         a = a - b;
