@@ -36,12 +36,15 @@ def parse_arguments(args=None) -> None:
             help="Name of the docker image.")
     parser.add_argument("-l", "--linkage", default="single",
             help="The linkage method to use for clustering.")
+    parser.add_argument("-a", "--algorithm", default="exhaustive",
+            help="The algorithm to use for repairing.")
     args = parser.parse_args(args=args)
     return args
 
 
 def main(suite_name, main_c:str=None, output_dir:str="experiment",
-        negations=[], image_name:str=None, linkage:str="single") -> int:
+        negations=[], image_name:str=None, linkage:str="single",
+        algorithm:str="exhaustive") -> int:
     """Main function.
 
     Parameters
@@ -74,7 +77,7 @@ def main(suite_name, main_c:str=None, output_dir:str="experiment",
         # We're making the all positive case
         any_suite = list(suites.values())[0]
         any_suite.create_files(main_c, output_dir, negations,
-                image_name, linkage)
+                image_name, linkage, algorithm)
 
     else:
         # Make the output dir
@@ -84,7 +87,7 @@ def main(suite_name, main_c:str=None, output_dir:str="experiment",
             neg_dir = os.path.join(output_dir, neg_name)
             if not os.path.exists(neg_dir):
                 suites[neg_name].create_files(main_c, neg_dir, negations,
-                        image_name, linkage)
+                        image_name, linkage, algorithm)
 
     # Return success code
     return 0

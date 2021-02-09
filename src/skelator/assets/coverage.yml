@@ -23,7 +23,7 @@ localization:
   type: spectrum
   metric: naive
 algorithm:
-  type: exhaustive
+  type: ALGORITHM
 coverage:
   method:
     type: gcov

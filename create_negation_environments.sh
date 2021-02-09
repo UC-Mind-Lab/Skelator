@@ -44,12 +44,13 @@ for n in $(ls .); do
     else
       make clean
       echo "Computing $n -- $m: repair (with 10 minute timeout)"
-      timeout 10m make repair | tee $@ repair.log
+      timeout 30m make repair.log 
       if [ ! -f "patches/0.diff" ]; then
         echo "$n--$m: No patch found" | tee -a $patch_results
       else
         echo "Patch found!"
         cp patches/0.diff found_patch.diff
+        cp -r patches found_patches
         patch docker/main.c patches/0.diff
         echo "Testing if patch works: coverage"
         make coverage.json

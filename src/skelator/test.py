@@ -67,7 +67,7 @@ class InfiniteBugTest(Test):
 
 
 class TestSuite:
-    def __init__(self, links=""):
+    def __init__(self, links="", algorithm:str="exhaustive"):
         self.suite = {}
         self.links = links
 
@@ -129,7 +129,7 @@ class TestSuite:
             return fin.read()
 
 
-    def _repair_file(self, negations, image_name):
+    def _repair_file(self, negations, image_name, algorithm):
         with open(os.path.join(ASSETS_DIR, "repair.yml"), "r") as fin:
             repair = fin.read()
         repair = repair.replace("IMAGE_NAME", image_name)
@@ -137,10 +137,11 @@ class TestSuite:
                 str(len(self.suite) - len(negations)))
         repair = repair.replace("NUM_FAILING_TESTS", str(len(negations)))
         repair = repair.replace("LINKS", self.links)
+        repair = repair.replace("ALGORITHM", algorithm)
         return repair
 
 
-    def _coverage_file(self, negations, image_name):
+    def _coverage_file(self, negations, image_name, algorithm):
         with open(os.path.join(ASSETS_DIR, "coverage.yml"), "r") as fin:
             coverage = fin.read()
         coverage = coverage.replace("IMAGE_NAME", image_name)
@@ -149,6 +150,7 @@ class TestSuite:
         coverage = coverage.replace("NUM_FAILING_TESTS",
                 str(len(negations)))
         coverage = coverage.replace("LINKS", self.links)
+        coverage = coverage.replace("ALGORITHM", algorithm)
         return coverage
 
 
@@ -190,7 +192,7 @@ class TestSuite:
 
 
     def create_files(self, main_c, experiment_dir:str, negations,
-            image_name:str, linkage:str)\
+            image_name:str, linkage:str, algorithm:str)\
         -> None:
         """Create all of the directories and files for the experiment.
 
@@ -222,10 +224,10 @@ class TestSuite:
             fout.write(self._makefile(image_name, linkage))
         # repair.yml
         with open(os.path.join(experiment_dir, "repair.yml"), "w") as fout:
-            fout.write(self._repair_file(negations, image_name))
+            fout.write(self._repair_file(negations, image_name, algorithm))
         # coverage.yml
         with open(os.path.join(experiment_dir, "coverage.yml"), "w") as fout:
-            fout.write(self._coverage_file(negations, image_name))
+            fout.write(self._coverage_file(negations, image_name, algorithm))
 
         # Create the "docker" directory
         docker_dir = os.path.join(experiment_dir, "docker")

@@ -5,8 +5,8 @@ all: docker
 docker:
 	docker build -t $(TAG) docker
 
-repair: docker
-	darjeeling repair repair.yml
+repair.log: docker
+	darjeeling repair repair.yml --continue --verbose | tee $@
 
 coverage.json: docker
 	darjeeling coverage coverage.yml --format json | tee $@
